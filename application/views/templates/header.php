@@ -21,6 +21,9 @@
   <!-- Bootstrap core JavaScript-->
   <script src="<?= base_url('assets/'); ?>vendor/jquery/jquery.min.js"></script>
 
+  <!-- Bootstrap Tags Input Plugin -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/') ?>plugins/bootstrap-tagsinput-main/dist/bootstrap-tagsinput.css?v=1.0.2" />
+
 </head>
 
 <body id="page-top">

@@ -110,9 +110,41 @@
                              <p class="text-center text-primary pt-3">Check Out!</p>
                            </b>
                            <div class="row">
-                             <a href="<?= base_url('attendance/checkout') ?>" onclick="return confirm('Check out now? Make sure you are done with you work!')" class="btn btn-danger btn-circle mx-auto" style="font-size: 35px; width: 200px; height: 200px">
+                             <!-- <a href="<?= base_url('attendance/checkout') ?>" onclick="return confirm('Check out now? Make sure you are done with you work!')" class="btn btn-danger btn-circle mx-auto" style="font-size: 35px; width: 200px; height: 200px">
+                               <i class="fas fa-fw fa-sign-out-alt fa-2x"></i>
+                             </a> -->
+                             <a  data-toggle="modal" data-target="#checkout" href="javascript:void(0)" class="btn btn-danger btn-circle mx-auto" style="font-size: 35px; width: 200px; height: 200px">
                                <i class="fas fa-fw fa-sign-out-alt fa-2x"></i>
                              </a>
+
+                             <!-- Modal -->
+                             <div class="modal fade" id="checkout" tabindex="-1" aria-labelledby="exampleModalLabel"
+                               aria-hidden="true">
+                               <div class="modal-dialog">
+                                 <div class="modal-content">
+                                   <div class="modal-header">
+                                     <h5 class="modal-title" id="exampleModalLabel">Check Out</h5>
+                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                     </button>
+                                   </div>
+                                   <form action="<?php echo base_url('attendance/checkout') ?>" method="post" id="form-checkout">
+                                   <div class="modal-body">
+                                     <div class="form-group">
+                                        <label for="">Laporan yang sudah dikerjakan</label>
+                                        <div>
+                                          <input type="text" name="link" class="form-control" value="" data-role="tagsinput" placeholder="Masukkan dalam bentuk link . . ." />
+                                        </div>
+                                     </div>
+                                   </div>
+                                   <div class="modal-footer">
+                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                     <button type="submit" class="btn btn-primary">Simpan Laporan</button>
+                                   </div>
+                                   </form>
+                                 </div>
+                               </div>
+                             </div>
                            <?php else : ?>
                              <b>
                                <p class="text-center text-primary pt-3">Sampai jumpa besok!</p>
@@ -154,6 +186,7 @@
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 
+<?php if ($in == false) : ?>
 <script>
   $(function() {
 
@@ -299,6 +332,33 @@
         }
       }
     });
+  });
+</script>
 
+<?php endif; ?>
+
+<script>
+  $(function() {
+    $('#form-checkout').submit(function( e ) {
+      e.preventDefault();
+      
+      let nilai = $('input[name="link"]').val();
+      if ( nilai.length > 0 ) {
+        
+        // split arr 
+        let divideArr = nilai.split(',');
+        if ( divideArr.length < 5 ) {
+
+          if (confirm(`Tugas yang anda masukkan kurang dari 5 poin, apakah anda yakin ingin mengirim hasil pengerjaan anda`) ) {
+
+            this.submit();
+          }
+          
+        } else {
+
+          this.submit();
+        }
+      }
+    });
   });
 </script>

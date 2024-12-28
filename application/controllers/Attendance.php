@@ -159,6 +159,8 @@ class Attendance extends CI_Controller
   // Check Check Out
   public function checkOut()
   {
+    $links = $this->input->post('link');
+    
     $username = $this->session->userdata['username'];
     $today = date('Y-m-d', time());
     $querySelect = "SELECT  attendance.username AS `username`,
@@ -183,14 +185,34 @@ class Attendance extends CI_Controller
       $outStatus = 'Early';
     };
 
-    $value = [
+    $updateData = [
       'out_time' => $oTime,
-      'out_status' => $outStatus
+      'out_status' => $outStatus,
+      'task'       => $links
     ];
+    
+    // $queryUpdate = "UPDATE `attendance`
+    //                    SET `out_time` ='" . $value['out_time'] . "', `out_status` ='" . $value['out_status'] . "' WHERE  `username` = '$username' AND  FROM_UNIXTIME(`in_time`, '%Y-%m-%d') = '$today'";
+    // $this->db->query($queryUpdate);
 
-    $queryUpdate = "UPDATE `attendance`
-                       SET `out_time` ='" . $value['out_time'] . "', `out_status` ='" . $value['out_status'] . "' WHERE  `username` = '$username' AND  FROM_UNIXTIME(`in_time`, '%Y-%m-%d') = '$today'";
-    $this->db->query($queryUpdate);
+    $where = array(
+      'username'  => $username,
+      "FROM_UNIXTIME(in_time, '%Y-%m-%d') ="  => $today
+    );
+    // $this->db->where('username', $username);
+    // $this->db->where("FROM_UNIXTIME(in_time, '%Y-%m-%d') =", $today, false);
+    $this->db->where( $where );
+    $this->db->update('attendance', $updateData);
+
+    // Check if any rows were affected
+    $affectedRows = $this->db->affected_rows();
+
+    // if ($affectedRows > 0) {
+    //     echo "Data has been updated.";
+    // } else {
+    //   print_r( $updateData );
+    //     echo "No data was updated.";
+    // }
     redirect('attendance');
   }
 

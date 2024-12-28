@@ -56,7 +56,9 @@ class Auth extends CI_Controller
             redirect('admin');
             break;
           case 2:
-            redirect('profile');
+
+            $this->mangkir( $user['employee_id'] );
+            // redirect('profile');
             break;
         }
       } else {
@@ -87,5 +89,27 @@ class Auth extends CI_Controller
   {
     $d['title'] = 'Access Blocked';
     $this->load->view('auth/blocked', $d);
+  }
+
+
+
+  // cek absensi mangkir (ALPHA)
+  function mangkir($empId) {
+
+    $date = date("Y-m-d");
+    $str = strtotime("$date 00:00:00");
+    $where = array(
+      'employee_id' => $empId,
+      'out_status'  => "",
+      'in_time <'   => $str
+    );
+
+    $result = $this->db->get_where("attendance", $where);
+
+    if ( $result->num_rows() > 0 ) {
+      $this->db->where($where)->update("attendance", ["out_status" => "Alpha"]);
+
+      echo "oke";
+    }
   }
 }
