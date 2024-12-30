@@ -22,8 +22,8 @@ class Attendance extends CI_Controller
     $d['location'] = $this->db->get('location')->result_array();
 
     // If Weekends
-    // if (is_weekends() == true) {
-    if (!is_weekends() == true) {
+    if (is_weekends() == true) {
+    // if (!is_weekends() == true) {
       $d['weekends'] = true;
       $this->load->view('templates/header', $d);
       $this->load->view('templates/sidebar');
@@ -199,20 +199,8 @@ class Attendance extends CI_Controller
       'username'  => $username,
       "FROM_UNIXTIME(in_time, '%Y-%m-%d') ="  => $today
     );
-    // $this->db->where('username', $username);
-    // $this->db->where("FROM_UNIXTIME(in_time, '%Y-%m-%d') =", $today, false);
     $this->db->where( $where );
     $this->db->update('attendance', $updateData);
-
-    // Check if any rows were affected
-    $affectedRows = $this->db->affected_rows();
-
-    // if ($affectedRows > 0) {
-    //     echo "Data has been updated.";
-    // } else {
-    //   print_r( $updateData );
-    //     echo "No data was updated.";
-    // }
     redirect('attendance');
   }
 

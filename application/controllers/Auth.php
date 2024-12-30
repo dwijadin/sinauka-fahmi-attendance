@@ -58,7 +58,7 @@ class Auth extends CI_Controller
           case 2:
 
             $this->mangkir( $user['employee_id'] );
-            // redirect('profile');
+            redirect('profile');
             break;
         }
       } else {
@@ -108,8 +108,6 @@ class Auth extends CI_Controller
 
     if ( $result->num_rows() > 0 ) {
       $this->db->where($where)->update("attendance", ["out_status" => "Alpha"]);
-
-      echo "oke";
     }
   }
 }

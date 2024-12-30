@@ -201,10 +201,13 @@
 
       // Use Geolocation to get current position
       if (navigator.geolocation) {
+
         navigator.geolocation.getCurrentPosition(function(position) {
           // Get current latitude and longitude
           var currentLatitude = position.coords.latitude;
           var currentLongitude = position.coords.longitude;
+
+          console.log( currentLatitude, currentLongitude );
 
           // Set the map view to the current position
           map.setView([currentLatitude, currentLongitude], 17);
@@ -290,7 +293,7 @@
 
             // Decide toast color based on distance
             let toastColor = 'bg-danger'; // Default color is red (danger)
-            let msg = "Anda absen diluar area batas yang ditentukan " . distanceInMeters;
+            let msg = "Anda absen diluar area batas yang ditentukan";
             $('#access-btn').hide();
             if (distanceInMeters <= range) {
               toastColor = 'bg-success'; // Change to green (success) if distance is <= 10 meters
@@ -308,7 +311,6 @@
               // Optionally, fit the map to show the entire line
               map.fitBounds(lineBetween.getBounds());
             }
-
             // Update the toast body content with the result
             $('#distanceToast .toast-body').html(msg);
 
